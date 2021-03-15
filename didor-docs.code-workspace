@@ -1,0 +1,66 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    // ===
+    // Eslint + Prettier
+    // ===
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll": false,
+      "source.fixAll.eslint": true,
+      "source.fixAll.stylelint": true
+    },
+    "eslint.alwaysShowStatus": true,
+    "eslint.run": "onSave",
+    "eslint.validate": ["javascript", "javascriptreact", "vue"],
+    "prettier.singleQuote": true,
+    "prettier.printWidth": 120,
+
+    // ===
+    // Spacing
+    // ===
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.trimAutoWhitespace": true,
+    "files.trimTrailingWhitespace": true,
+    "files.eol": "\n",
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+
+    // ===
+    // VETUR
+    // ===
+    "vetur.validation.style": true,
+    "vetur.validation.template": false,
+    "vetur.format.enable": false,
+
+    // ===
+    // CSS
+    // ===
+    "stylelint.enable": true,
+    "css.validate": false,
+    "scss.validate": false,
+
+    // ===
+    // MARKDOWN
+    // ===
+    "[markdown]": {
+      "editor.wordWrap": "wordWrapColumn",
+      "editor.wordWrapColumn": 100
+    },
+    "markdownlint.config": {
+      "line-length": false,
+      "first-line-h1": false,
+      "no-multiple-blanks": false,
+      "list-marker-space": false
+    },
+    "extensions": {
+      "recommendations": ["octref.vetur", "sdras.vue-vscode-snippets", "dbaeumer.vscode-eslint", "stylelint.vscode-stylelint", "DavidAnson.vscode-markdownlint", "esbenp.prettier-vscode", "syler.sass-indented", "antfu.i18n-ally", "Orta.vscode-jest", "mikestead.dotenv"]
+    }
+  }
+}
