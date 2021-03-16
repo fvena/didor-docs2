@@ -1,13 +1,45 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-// import Home from '/Auth/pages/Home.page.vue';
-// import Login from '/Auth/pages/Login.page.vue';
-// import About from '/Auth/pages/About.page.vue';
+import DocsLayout from '@/views/DocsLayout';
+import NotFoundView from '@/views/NotFound.view.vue';
 
 const routes = [
-  // { path: '/', component: Home },
-  // { path: '/about', component: About },
-  // { path: '/login', component: Login },
+  {
+    path: '/',
+    redirect: {
+      name: 'section',
+    },
+  },
+
+  // Docs routes
+  {
+    path: '/:section/:article',
+    name: 'section',
+    component: DocsLayout,
+    props: route => {
+      return {
+        section: route.params.section,
+        article: route.params.article
+      }
+    },
+    // pathToRegexpOptions: { strict: false },
+    // beforeEnter: (to, from, next) => {
+    //   if (sessionStorage.getItem('redirect') !== null) {
+    //     const redirect = sessionStorage.redirect;
+    //     delete sessionStorage.redirect;
+    //     next(redirect);
+    //   } else {
+    //     next();
+    //   }
+    // },
+  },
+
+  // Routes not found - 404
+  {
+    path: '/404',
+    name: '404',
+    component: NotFoundView,
+  },
 ];
 
 const router = createRouter({
