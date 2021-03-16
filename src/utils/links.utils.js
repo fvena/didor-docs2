@@ -72,8 +72,13 @@ const getListLinks = (markdown, section) => new Promise(resolve => {
   resolve(jsonTree);
 });
 
+const removeExtension = (filename) => {
+  return filename.replace(/\.[^/.]+$/, "");
+}
+
 export default {
   slugify,
   getParentNode,
   getListLinks,
+  removeExtension,
 };

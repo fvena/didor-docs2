@@ -13,7 +13,7 @@ const routes = [
 
   // Docs routes
   {
-    path: '/:section/:article',
+    path: '/:section?/:article*',
     name: 'section',
     component: DocsLayout,
     props: route => {

@@ -13,24 +13,57 @@
   //- Main Content
   .docsLayout__main
     | Docs Layout
-    p {{ content }}
+    p {{ article }}
 </template>
 
 <script>
-  import useSections from '@/composables/useSections'
-  import useArticles from '@/composables/useArticles'
-  import useArticle from '@/composables/useArticle'
+  import { watch, onMounted } from 'vue'
+  import { useRoute } from 'vue-router'
+  import Docs from '@/models/Docs.model'
 
   export default {
     setup() {
-      const { sections } = useSections()
-      const { articles } = useArticles()
-      const { content } = useArticle()
+      const route = useRoute();
+      const docs = new Docs();
+
+      const sections = docs.sections;
+      const articles = docs.articles;
+      const article = docs.article;
+
+      const getData = async (newParams, oldParams) => {
+        //
+        // Primera carga de la página
+        //
+        if (!oldParams) {
+          await docs.getSections();
+          await docs.getArticles(newParams.section);
+          docs.getArticle(newParams.section, newParams.article);
+          return
+        }
+
+        //
+        // Cambiamos de sección
+        //
+        if (newParams.section !== oldParams.section) {
+          await docs.getArticles(newParams.section);
+          docs.getArticle(newParams.section, newParams.article);
+          return
+        }
+
+        //
+        // Cambiamos de artículo
+        //
+        docs.getArticle(newParams.section, newParams.article);
+      }
+
+      watch(() => route.params, getData)
+
+      onMounted(() => getData(route.params));
 
       return {
         sections,
         articles,
-        content
+        article
       }
     },
   }
