@@ -19,6 +19,8 @@ import LinksUtils from '@/utils/links.utils';
  */
 
 export default class Docs {
+  sectionPath = '';
+  articlePath = '';
   sections = ref([]);
   articles = ref([]);
   article = ref();
@@ -26,7 +28,6 @@ export default class Docs {
 
   constructor() {
     this.didor = window.$didor;
-    // this.init(sectionPath, articlePath);
   }
 
   //
@@ -49,11 +50,42 @@ export default class Docs {
   // METHODS
   //
 
-  // async init(sectionPath, articlePath) {
-  //   await this.getSections();
-  //   await this.getArticles(sectionPath);
-  //   this.getArticle(sectionPath, articlePath);
-  // }
+  /**
+   * Obtiene todos los datos
+   *
+   * @param {String} section - Nombre de la sección
+   * @param {String} article - Nombre del artículo
+   * @throws {DocsError} - Error de Sección
+   */
+  async init({section, article}) {
+    await this.getSections();
+    await this.getArticles(section);
+    this.getArticle(section, article);
+
+    this.sectionPath = section;
+    this.articlePath = article;
+  }
+
+
+  /**
+   * Actualiza los datos
+   *
+   * @param {String} section - Nombre de la sección
+   * @param {String} article - Nombre del artículo
+   * @throws {DocsError} - Error de Sección
+   */
+  async update({section, article}) {
+
+    if (this.sectionPath !== section) {
+      await this.getArticles(section);
+    }
+
+    this.getArticle(section, article);
+
+    this.sectionPath = section;
+    this.articlePath = article;
+  }
+
 
   /**
    * Obtiene el listado de secciones dentro de una ruta
@@ -112,6 +144,7 @@ export default class Docs {
         const flatNavbarLinks = ArrayUtils.flattenList(this.articles.value);
         const firstArticle = LinksUtils.removeExtension(flatNavbarLinks[0].path);
         Router.push({ path: firstArticle })
+        return
       }
     }
 
@@ -120,7 +153,6 @@ export default class Docs {
     // Si existe un archivo por defecto lo devuelvo
     //
     if (defaultFile) {
-      console.log('articulo por defecto')
       this.article.value = await DocsService.getContent(`${basePath}/${defaultFile}`);
     }
   }

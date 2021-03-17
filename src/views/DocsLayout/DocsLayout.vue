@@ -30,35 +30,9 @@
       const articles = docs.articles;
       const article = docs.article;
 
-      const getData = async (newParams, oldParams) => {
-        //
-        // Primera carga de la página
-        //
-        if (!oldParams) {
-          await docs.getSections();
-          await docs.getArticles(newParams.section);
-          docs.getArticle(newParams.section, newParams.article);
-          return
-        }
+      watch(() => route.params, (params) => docs.update(params))
 
-        //
-        // Cambiamos de sección
-        //
-        if (newParams.section !== oldParams.section) {
-          await docs.getArticles(newParams.section);
-          docs.getArticle(newParams.section, newParams.article);
-          return
-        }
-
-        //
-        // Cambiamos de artículo
-        //
-        docs.getArticle(newParams.section, newParams.article);
-      }
-
-      watch(() => route.params, getData)
-
-      onMounted(() => getData(route.params));
+      onMounted(() => docs.init(route.params));
 
       return {
         sections,
