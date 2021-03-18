@@ -1,0 +1,19 @@
+.fileTree {
+  margin: double() 0;
+
+  &__data {
+    display: none;
+  }
+
+  &::v-deep() {
+    .fileTree__content > .fileTreeNode {
+      padding-left: 0;
+      margin-left: simple();
+
+      &::before,
+      &::after {
+        display: none;
+      }
+    }
+  }
+}

@@ -16,12 +16,6 @@ const routes = [
     path: '/:section?/:article?',
     name: 'section',
     component: DocsLayout,
-    props: route => {
-      return {
-        section: route.params.section,
-        article: route.params.article
-      }
-    },
     // pathToRegexpOptions: { strict: false },
     // beforeEnter: (to, from, next) => {
     //   if (sessionStorage.getItem('redirect') !== null) {

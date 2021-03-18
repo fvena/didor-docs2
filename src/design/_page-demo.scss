@@ -1,0 +1,315 @@
+/**
+ * Página Layout
+ */
+.page--layout {
+  .page--layout__block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 0.4rem 0.6rem;
+    color: #ffffff;
+    background-color: color(brand);
+    border-radius: 3px;
+  }
+
+  .page--layout__main {
+    height: 300px;
+  }
+
+  .page--layout__aside {
+    width: 150px;
+  }
+
+  @include media(palm) {
+    .page--layout__aside {
+      width: 100%;
+    }
+  }
+}
+
+/**
+ * Página Flex
+ */
+.page--flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/**
+ * Pagína bordes
+ */
+.page--border {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: double() simple();
+  margin-bottom: double();
+}
+
+.block-border {
+  position: relative;
+  width: 100%;
+  height: quadruple();
+  background-color: color(gray7);
+  border-color: color(gray5);
+  border-width: 2px;
+
+  &::after {
+    position: absolute;
+    top: calc(100% + #{quarter()});
+    display: block;
+    width: 100%;
+    font-size: font-size(small1);
+    text-align: center;
+    white-space: nowrap;
+    content: attr(data-name);
+  }
+}
+
+/**
+ * Página código
+ */
+.page--code {
+  padding: $space;
+  background-color: color(gray7);
+  border: $border;
+  border-radius: $border-radius;
+
+  p:last-of-type {
+    margin-bottom: 0;
+  }
+}
+
+/**
+ * Pagína colores
+ */
+.page--color {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: double() simple();
+}
+
+.page--color .block--color {
+  @include shadow(3);
+
+  position: relative;
+  width: 100%;
+  height: quadruple();
+  border-radius: 5px;
+
+  &::after {
+    position: absolute;
+    top: calc(100% + #{quarter()});
+    display: block;
+    width: 100%;
+    font-size: font-size(small1);
+    text-align: center;
+    white-space: nowrap;
+    content: attr(data-name);
+  }
+}
+
+.page--text .page-block {
+  justify-content: start;
+  width: 100%;
+  height: simple();
+  text-align: left;
+  background-color: transparent;
+}
+
+/**
+ * Página float
+ */
+.page--float {
+  .page-block {
+    width: auto;
+    height: double();
+    white-space: nowrap;
+  }
+}
+
+/**
+ * Página imágenes
+ */
+// .page--image {}
+
+/**
+ * Página listados
+ */
+// .page--list {}
+
+/**
+ * Página multimedia
+ */
+.page--media {
+  .media img {
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
+
+/**
+ * Página overflow
+ */
+.page--overflow {
+  display: flex;
+
+  .page-block {
+    display: block;
+    width: auto;
+    font-size: font-size(small1);
+    color: color(gray2);
+    background-color: color(gray6);
+  }
+}
+
+/**
+ * Página posicionamiento
+ */
+.block-position {
+  @include shadow(3);
+
+  z-index: 10000;
+  height: double();
+  margin: double() 0;
+  line-height: double();
+  color: color(white);
+  text-align: center;
+  background-color: color(brand);
+  border-radius: $border-radius;
+
+  &--top {
+    top: triple();
+  }
+
+  &--bottom {
+    background-color: color(warning);
+  }
+}
+
+@include media(touch) {
+  .block-position-responsive {
+    left: $sidebar-width-touch;
+  }
+}
+
+@include media(large) {
+  .block-position-responsive {
+    left: $sidebar-width-large;
+  }
+}
+
+/**
+ * Página tablas
+ */
+// .page--table {}
+
+/**
+ * Página tamaños
+ */
+.page--size {
+  margin-bottom: simple();
+
+  .page-block {
+    display: block;
+    width: auto;
+    height: simple();
+    padding: 0 half();
+    margin-bottom: quarter();
+    font-size: font-size(small1);
+    line-height: simple();
+    text-align: left;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+}
+
+.page-size-width .page-block {
+  display: block;
+  width: auto;
+  height: double();
+  padding: 0 half();
+  margin-right: 0;
+  margin-bottom: half();
+  line-height: double();
+  text-align: left;
+  white-space: nowrap;
+}
+
+.page-size-height {
+  display: flex;
+  height: 300px;
+
+  .page-block {
+    align-items: flex-start;
+    height: auto;
+    margin-bottom: 0;
+  }
+}
+
+.page--wrap {
+  display: flex;
+  justify-content: space-between;
+
+  .page-block {
+    justify-content: start;
+    width: 200px;
+    color: color(gray-2);
+    background-color: color(gray6);
+  }
+}
+
+:root {
+  --color-shadow-brand: 25, 146, 212; // valor rgb separado por comas
+}
+
+.page--shadows {
+  display: flex;
+  flex-wrap: wrap;
+  padding-bottom: double();
+
+  .page-block {
+    margin: simple();
+    color: color(gray1);
+    background-color: #ffffff;
+  }
+
+  .shadow-brand {
+    @include shadow(3, var(--color-shadow-brand));
+  }
+}
+
+.page-block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 130px;
+  height: 130px;
+  padding: 0.4rem 0.6rem;
+  margin-right: half();
+  margin-bottom: half();
+  color: #ffffff;
+  text-align: center;
+  background-color: color(brand);
+  border-radius: 5px;
+  transition: all 0.3s;
+}
+
+.page-block-responsive {
+  @include shadow(2);
+
+  left: $sidebar-width;
+  padding: half();
+  margin-top: simple();
+  text-align: left;
+  background-color: color(gray7);
+  border: $border;
+  border-radius: $border-radius;
+  transition: all 0.3s;
+
+  .dd--icon {
+    margin-right: quarter();
+  }
+}

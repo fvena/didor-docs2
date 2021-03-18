@@ -23,7 +23,10 @@ export default class Docs {
   articlePath = '';
   sections = ref([]);
   articles = ref([]);
-  article = ref();
+  article = ref('');
+  nextArticle = ref();
+  prevArticle = ref();
+  data = ref([]);
   didor = {};
 
   constructor() {
@@ -44,6 +47,18 @@ export default class Docs {
 
   get article() {
     return this.article;
+  }
+
+  get nextArticle() {
+    return this.nextArticle;
+  }
+
+  get prevArticle() {
+    return this.prevArticle;
+  }
+
+  get data() {
+    return this.data;
   }
 
   //
@@ -108,9 +123,22 @@ export default class Docs {
    * @throws {DocsError} - Error de Sección
    */
   async getArticles(sectionPath) {
+    //
+    // Necesitamos tener el listado de secciones para obtener la ruta de la sección
+    //
+    if(!ArrayUtils.checkArray(this.sections.value)) return
+
     const { basePath, articlesFile } = this.didor.content;
     if (!basePath || !sectionPath || !articlesFile) return;
-    this.articles.value = await DocsService.getLinks(`${basePath}/${sectionPath}/${articlesFile}`);
+
+    const section = this.getCurrentSection(sectionPath);
+
+    if (!section?.path) {
+      this.clear();
+      return;
+    }
+
+    this.articles.value = await DocsService.getLinks(`${basePath}/${section.path}/${articlesFile}`);
   }
 
   /**
@@ -126,34 +154,118 @@ export default class Docs {
     if (!basePath) return;
 
     //
-    // Si recibimos una sección y un artículo devuelvo el artículo
+    // Si recibimos una sección y tengo un listado de artículos
     //
-    if (sectionPath && articlePath) {
-      this.article.value = await DocsService.getContent(`${basePath}/${sectionPath}/${articlePath}.md`);
-      return;
-    }
-
-    //
-    // Si recibimos una sección y no recibimos un artículo:
-    //   - Si existe un listado de artículos, redirijo al primer artículo
-    //     El listado puede contener una estructura anidada
-    //     para asegurarme que obtengo el primer link, lo combierto a una estructura plana
-    //
-    if (sectionPath && !articlePath) {
-      if (ArrayUtils.checkArray(this.articles.value)) {
-        const flatNavbarLinks = ArrayUtils.flattenList(this.articles.value);
-        const firstArticle = LinksUtils.removeExtension(flatNavbarLinks[0].path);
-        Router.push({ path: firstArticle })
+    if (sectionPath && ArrayUtils.checkArray(this.articles.value)) {
+      //
+      // Si no recibimos un artículo, redirijo al primer artículo de la sección
+      //
+      if (!articlePath) {
+        const firstArticle = this.getFirstArticle();
+        Router.push({ path: `/${sectionPath}/${firstArticle.slug}` })
         return
       }
+
+      //
+      // Obtengo los datos del artículo correspondiente a la ruta actual
+      // y si existen los artículos previo y siguiente
+      //
+      const {current, next, prev} = this.getCurrentArticle(articlePath);
+
+      if (!current.path) {
+        this.clear();
+        return;
+      }
+
+      const content = await DocsService.getContent(`${basePath}/${current.path}`);
+      this.article.value = content.render;
+      this.data.value = content.data;
+
+      this.prevArticle.value = prev;
+      this.nextArticle.value = next;
+      return
     }
+
+    // //
+    // // Si recibimos una sección y un artículo devuelvo el artículo
+    // //
+    // if (sectionPath && articlePath) {
+    //   console.log('sectionPath', sectionPath)
+    //   console.log('articlePath', articlePath)
+
+    //   const content = await DocsService.getContent(`${basePath}/${sectionPath}/${articlePath}.md`);
+    //   this.article.value = content.render;
+    //   this.data.value = content.data;
+    //   return;
+    // }
+
+    // //
+    // // Si recibimos una sección y no recibimos un artículo:
+    // //   - Si existe un listado de artículos, redirijo al primer artículo
+    // //     El listado puede contener una estructura anidada
+    // //     para asegurarme que obtengo el primer link, lo combierto a una estructura plana
+    // //
+    // if (sectionPath && !articlePath) {
+    //   if (ArrayUtils.checkArray(this.articles.value)) {
+    //     const flatNavbarLinks = ArrayUtils.flattenList(this.articles.value);
+    //     const firstArticle = LinksUtils.removeExtension(flatNavbarLinks[0].path);
+    //     Router.push({ path: firstArticle })
+    //     return
+    //   }
+    // }
 
     //
     // Si no recibo una sección ni artículo estoy en el root '/'
     // Si existe un archivo por defecto lo devuelvo
     //
-    if (defaultFile) {
-      this.article.value = await DocsService.getContent(`${basePath}/${defaultFile}`);
+    if (!sectionPath && !articlePath && defaultFile) {
+      const content = await DocsService.getContent(`${basePath}/${defaultFile}`);
+      this.article.value = content.render;
+      this.data.value = content.data;
     }
+
+    //
+    // En cualquier otro caso no se encuentra la ruta y reinicio los datos
+    //
+    this.clear()
+  }
+
+  getCurrentSection(sectionPath) {
+    const flatList = ArrayUtils.flattenList(this.sections.value);
+    const slug = `${sectionPath}`;
+    const index = flatList.findIndex(item => item.slug === slug);
+
+    return index >= 0 ? flatList[index] : null;
+  }
+
+  getCurrentArticle(articlePath) {
+    const flatList = ArrayUtils.flattenList(this.articles.value);
+    const slug = `${articlePath}`;
+    const index = flatList.findIndex(item => item.slug === slug);
+
+    let current = null;
+    let prev = null;
+    let next = null;
+
+    if(index >= 0) {
+      current = flatList[index];
+      prev = index - 1 >= 0 ? flatList[index - 1] : null;
+      next = index + 1 < flatList.length ? flatList[index + 1] : null;
+    }
+
+    return { current, prev, next };
+  }
+
+  getFirstArticle() {
+    const flatList = ArrayUtils.flattenList(this.articles.value);
+    return flatList[0];
+  }
+
+  clear() {
+    this.articles.value = [];
+    this.article.value = null;
+    this.nextArticle.value = null;
+    this.prevArticle.value = null;
+    this.data.value = [];
   }
 }

@@ -1,0 +1,85 @@
+.fileTreeNode {
+  position: relative;
+  margin-left: simple();
+
+  &::before {
+    position: absolute;
+    top: 0%;
+    left: calc(#{half('-')} - 4px);
+    width: 1px;
+    height: 100%;
+    content: '';
+    background-color: color(gray5);
+  }
+
+  &::after {
+    position: absolute;
+    top: size(0.65);
+    left: calc(#{half('-')} - 4px);
+    width: quarter();
+    height: 1px;
+    content: '';
+    background-color: color(gray5);
+  }
+
+  &:last-of-type::before {
+    height: 1.05rem;
+  }
+
+  &__showFolder,
+  &__icon,
+  &__title,
+  &__description {
+    display: inline-block;
+  }
+
+  &__row {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 0.1rem 0;
+    font-size: font-size(small1);
+
+    &--select {
+      .fileTreeNode__icon,
+      .fileTreeNode__title {
+        font-weight: font-weight(bold);
+        color: color(gray1);
+      }
+    }
+
+    &--folder {
+      cursor: pointer;
+    }
+  }
+
+  &__showFolder {
+    position: absolute;
+    left: calc(#{simple('-')} + 4px);
+    z-index: 10;
+    width: 20px;
+    height: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    background-color: color(white);
+  }
+
+  &__icon {
+    width: simple();
+    margin-right: quarter();
+  }
+
+  &__description {
+    flex: 1;
+    overflow: hidden;
+    color: color(gray4);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    &::before {
+      display: inline-block;
+      margin: 0 quarter();
+      content: '-';
+    }
+  }
+}

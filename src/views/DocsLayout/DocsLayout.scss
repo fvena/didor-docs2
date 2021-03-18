@@ -210,11 +210,7 @@
 }
 
 @include media(palm) {
-  .docsLayout {
-    &--header-hidden {
-      .docsLayout__header {
-        transform: translate3d(0, -100%, 0);
-      }
-    }
+  .docsLayout__header.hideOnScroll {
+    transform: translate3d(0, -100%, 0);
   }
 }

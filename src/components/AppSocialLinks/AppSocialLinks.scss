@@ -1,0 +1,22 @@
+.appSocialLinks {
+  display: flex;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: size(1.6);
+    height: 100%;
+    cursor: pointer;
+
+    svg {
+      stroke: color(gray2);
+    }
+
+    @include hover {
+      svg {
+        stroke: color(brand);
+      }
+    }
+  }
+}

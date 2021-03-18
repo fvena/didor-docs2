@@ -1,0 +1,44 @@
+.scrollTracking {
+  position: fixed;
+  top: quadruple();
+  right: simple();
+  z-index: 10;
+  width: 10rem;
+  max-height: calc(100% - #{quadruple()});
+  overflow-y: scroll;
+
+  &__title {
+    overflow: hidden;
+    font-size: font-size(small1);
+    font-weight: font-weight(bold);
+    color: color(gray1);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    @include hover {
+      color: color(gray1);
+      text-decoration: none;
+    }
+  }
+
+  &__block {
+    height: 100%;
+    overflow-y: scroll;
+  }
+
+  &::v-deep() {
+    .scrollTracking__block > .scrollTrackingNode {
+      padding-left: 0;
+
+      &::before {
+        display: none;
+      }
+    }
+  }
+}
+
+@include media(large) {
+  .scrollTracking {
+    right: calc(50% - #{$desk / 2} + #{simple()});
+  }
+}

@@ -1,0 +1,193 @@
+.appHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  /**
+   * Logotipo
+   */
+  &__logo {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    min-width: $sidebar-width;
+    height: 100%;
+    padding: 0 simple();
+    font-family: font-family(heading);
+    font-size: font-size(h5);
+    font-weight: font-weight(heading);
+    color: color(gray1);
+
+    img {
+      max-height: 50%;
+    }
+
+    @include hover {
+      text-decoration: none;
+    }
+  }
+
+  &__bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: saturate(180%) blur(5px);
+    box-shadow: 0 2px 3px rgba(255, 255, 255, 0.8);
+  }
+
+  /**
+   * Buscador
+   */
+  &__search {
+    display: flex;
+    flex-grow: 2;
+    align-items: center;
+    width: 100%;
+    margin-left: half();
+    transition: $transition;
+  }
+
+  &__nav {
+    height: $header-height;
+
+    &::v-deep() .appMenu {
+      .appMenu__item--link,
+      .dropdown__header {
+        height: $header-height;
+        font-size: $menu-font-size;
+        font-weight: font-weight(bold);
+        line-height: $header-height;
+
+        @include hover {
+          text-decoration: none;
+        }
+      }
+
+      .dropdown__icon {
+        top: size(1.38);
+      }
+
+      .dropdown--float .dropdown__body {
+        top: 90%;
+      }
+    }
+  }
+
+  /**
+   * Botones de las redes sociales
+   */
+  &__social {
+    height: $header-height;
+    margin: 0 half();
+  }
+
+  /**
+   * Botones para mostrar/ocultar el menú móvil
+   */
+  &__toggle-sidebar {
+    position: relative;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: double();
+    height: $header-height-media;
+    margin: 0 half();
+    cursor: pointer;
+
+    span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      margin: 1px 0;
+      background-color: color(gray2);
+      border-radius: 2px;
+      transition: $transition;
+
+      &:nth-child(1) {
+        transform: scaleX(1);
+      }
+
+      &:nth-child(2) {
+        margin: 3px 0;
+        transform: scaleX(0.6) translate(-6px, 0);
+      }
+
+      &:nth-child(3) {
+        transform: scaleX(0.8) translate(-2px, 0);
+      }
+    }
+
+    /**
+     * Botón hamburguesa estado cerrado
+     */
+    &--close {
+      span:nth-child(1) {
+        transform: scaleX(1) rotate(45deg) translate(4px, 5.5px);
+      }
+
+      span:nth-child(2) {
+        transform: scaleX(0);
+      }
+
+      span:nth-child(3) {
+        transform: scaleX(1) rotate(-45deg) translate(3px, -4.5px);
+      }
+    }
+  }
+}
+
+@include media(touch) {
+  .appHeader {
+    &__logo {
+      min-width: $sidebar-width-touch;
+    }
+  }
+}
+
+@include media(large) {
+  .appHeader {
+    &__logo {
+      min-width: $sidebar-width-large;
+    }
+  }
+}
+
+@include media(portrait) {
+  .appHeader {
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: saturate(180%) blur(5px);
+    box-shadow: 0 2px 3px rgba(255, 255, 255, 0.8);
+
+    &__logo {
+      box-shadow: none;
+    }
+
+    &__bar {
+      background-color: initial;
+      backdrop-filter: initial;
+      box-shadow: initial;
+    }
+
+    &__toggle-sidebar {
+      display: flex;
+    }
+
+    &__search,
+    &__nav,
+    &__social {
+      display: none !important;
+    }
+  }
+}
+
+@include theme(dark) {
+  .appHeader {
+    &__bar {
+      background-color: rgba(43, 50, 54, 0.8);
+      box-shadow: 0 2px 3px rgba(43, 50, 54, 0.8);
+    }
+  }
+}
