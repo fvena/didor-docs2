@@ -2,39 +2,45 @@
 .tabs
   .tabs__titles
     .tabs__title(
-      v-for="(tab, key) in tabs"
-      :class="{'tabs__title--select': tab.isActive }"
-      @click="selectTab(tab)")
-      | {{ tab.title }}
+      v-for="(tab, index) in tabs"
+      :key="index"
+      :class="{'tabs__title--select': index === selectedIndex }"
+      @click="selectTab(index)")
+      | {{ tab.props.title }}
   .tabs__content
     slot
 </template>
 
 <script>
-import Tab from './Tab.vue';
+import { reactive, toRefs, onBeforeMount, onMounted, provide } from "vue";
 
 export default {
   name: 'Tabs',
-  components: {
-    Tab,
-  },
-  data() {
-    return {
+  setup(_, {slots}) {
+    const state = reactive({
+      selectedIndex: 0,
       tabs: [],
-    };
-  },
-  methods: {
-    selectTab(selectedTab) {
-      this.tabs.forEach(tab => {
-        tab.isActive = tab.title === selectedTab.title;
-      });
-    },
-  },
+      count: 0
+    });
 
-  async created() {
-    this.tabs = await this.$children;
-    this.tabs[0].isActive = true;
-  },
+    provide("TabsProvider", state);
+
+    const selectTab = (i) => {
+      state.selectedIndex = i;
+    };
+
+    onBeforeMount(() => {
+      if (slots.default) {
+        state.tabs = slots.default().filter((child) => child.type.name === "Tab");
+      }
+    });
+
+    onMounted(() => {
+      selectTab(0);
+    });
+
+    return {...toRefs(state), selectTab};
+  }
 };
 </script>
 

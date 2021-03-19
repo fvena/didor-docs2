@@ -51,7 +51,7 @@
   import AppHeader from '@/components/AppHeader';
   import AppSidebar from '@/components/AppSidebar';
   import AppMenu from '@/components/AppMenu';
-  // import AppSocialLinks from '@/components/AppSocialLinks';
+  import AppSocialLinks from '@/components/AppSocialLinks';
   import AppArticle from '@/components/AppArticle';
   import AppPagination from '@/components/AppPagination';
   import AppNotFound from '@/components/AppNotFound';
@@ -68,7 +68,7 @@
       AppHeader,
       AppSidebar,
       AppMenu,
-      // AppSocialLinks,
+      AppSocialLinks,
       AppArticle,
       AppPagination,
       AppNotFound,

@@ -4,6 +4,8 @@
 </template>
 
 <script>
+import { ref, watch, inject, onBeforeMount } from "vue";
+
 export default {
   name: 'Tab',
   props: {
@@ -11,16 +13,27 @@ export default {
       type: String,
       required: true,
     },
-    selected: {
-      type: Boolean,
-      default: false,
-    },
   },
+  setup(props) {
+    const index = ref(0);
+    const isActive = ref(false);
 
-  data() {
-    return {
-      isActive: false,
-    };
-  },
+    const tabs = inject("TabsProvider");
+
+    watch(
+      () => tabs.selectedIndex,
+      () => {
+        isActive.value = index.value === tabs.selectedIndex;
+      }
+    );
+
+    onBeforeMount(() => {
+      index.value = tabs.count;
+      tabs.count++;
+      isActive.value = index.value === tabs.selectedIndex;
+    });
+
+    return {index, isActive};
+  }
 };
 </script>
