@@ -1,7 +1,7 @@
 <template lang="pug">
 .appThemeMode
   //- Icono light
-  SvgIcon.appThemeMode__icon(
+  dd-icon.appThemeMode__icon(
     name="sun"
     scale="0.6"
     :class="{'appThemeMode__icon--select': mode === 'light'}")
@@ -13,7 +13,7 @@
     .appThemeMode__switch__node
 
   //- Icono dark
-  SvgIcon.appThemeMode__icon(
+  dd-icon.appThemeMode__icon(
     name="moon"
     scale="0.6"
     :class="{'appThemeMode__icon--select': mode === 'dark'}")

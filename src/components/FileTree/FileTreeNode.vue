@@ -3,14 +3,14 @@
   .fileTreeNode__row(@click="toggleOpenFolder" :class="{'fileTreeNode__row--folder': node.type==='folder' && node.children && node.children.length, 'fileTreeNode__row--select': node.select}")
     //- Icono Abrir/Cerrar carpeta
     .fileTreeNode__showFolder(v-if="node.type==='folder' && node.children && node.children.length")
-      SvgIcon.fileTreeNode__icon(name="minus-square" scale="0.45" v-if="openFolder")
-      SvgIcon.fileTreeNode__icon(name="plus-square" scale="0.45" v-else)
+      dd-icon.fileTreeNode__icon(name="minus-square" scale="0.45" v-if="openFolder")
+      dd-icon.fileTreeNode__icon(name="plus-square" scale="0.45" v-else)
 
     //- Icono Carpeta
-    SvgIcon.fileTreeNode__icon(name="folder" scale="0.7" v-if="node.type==='folder'")
+    dd-icon.fileTreeNode__icon(name="folder" scale="0.7" v-if="node.type==='folder'")
 
     //- Icono Archivo
-    SvgIcon.fileTreeNode__icon(name="file" scale="0.7" v-else)
+    dd-icon.fileTreeNode__icon(name="file" scale="0.7" v-else)
 
     //- Título
     .fileTreeNode__title

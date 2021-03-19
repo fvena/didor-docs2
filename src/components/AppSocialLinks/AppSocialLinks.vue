@@ -7,7 +7,6 @@
     target="_blank"
   )
     dd-icon(:name="name" scale="0.7")
-    //- SvgIcon(:name="name" scale="0.7")
 </template>
 
 <script>

@@ -21,8 +21,7 @@ import SvgIcon from '@/components/SvgIcon';
 
 // Estilos de la aplicación
 import './design/main.scss';
-import 'vite-plugin-svg-icons/register';
-import './assets/icons/sprite';
+import './assets/icons';
 
 // Inicializo el servicio API
 //
@@ -47,6 +46,5 @@ app.component('DDKBD', KBD);
 // app.component('Embed', Embed);
 // app.component('Tabs', Tabs);
 // app.component('Tab', Tab);
-// app.component('SvgIcon', SvgIcon);
-app.component('SvgIcon', SvgIcon)
+// app.component('SvgIcon', SvgIcon)
 app.mount('#app');

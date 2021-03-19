@@ -1,7 +1,7 @@
 <template lang="pug">
 .search
   .search__icon
-    SvgIcon(name="search" scale="0.7")
+    dd-icon(name="search" scale="0.7")
   input.search__input(type="text" placeholder="Buscador")
 
 </template>

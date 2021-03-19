@@ -3,18 +3,18 @@
 
   //- Nombre del archivo
   .appCode__filename(v-if="filename")
-    SvgIcon(name="file" scale="0.6")
+    dd-icon(name="file" scale="0.6")
     | {{ filename }}
 
   //- Botones
   .appCode__buttons
     //- Botón reset
     .appCode__button(@click="reset" v-if="editable")
-      SvgIcon(name="rotate-cw" scale="0.7")
+      dd-icon(name="rotate-cw" scale="0.7")
 
     //- Botón copiar
     .appCode__button(ref="copyButton")
-      SvgIcon(name="copy" scale="0.7")
+      dd-icon(name="copy" scale="0.7")
 
   //- Textarea que utiliza codemirror para obtener el código
   .appCode__code

@@ -68,7 +68,7 @@ md.use(MarkdownItRegex, {
   name: 'icons',
   regex: /:([a-zA-Z-]+):/,
   replace: match => {
-    return `<SvgIcon name="${match}" scale="0.8"></SvgIcon>`;
+    return `<dd-icon name="${match}" scale="0.8"></dd-icon>`;
   },
 });
 
