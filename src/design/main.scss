@@ -1,9 +1,10 @@
+@import 'var';
+
 // Import didor styles
 @import '@didor/styles/src/didor-share.scss';
 @import '@didor/styles/src/didor-global.scss';
 
 // Import custom styles
-@import 'var';
 @import 'icon';
 @import 'tooltips';
 @import 'page-demo';

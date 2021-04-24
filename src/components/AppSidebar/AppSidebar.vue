@@ -9,20 +9,20 @@
 </template>
 
 <script>
-import AppSidebarItem from './AppSidebarItem.vue';
+  import AppSidebarItem from './AppSidebarItem.vue';
 
-export default {
-  name: 'AppSidebar',
-  components: {
-    AppSidebarItem,
-  },
-  props: {
-    links: {
-      type: Array,
-      required: true,
+  export default {
+    name: 'AppSidebar',
+    components: {
+      AppSidebarItem,
     },
-  },
-};
+    props: {
+      links: {
+        type: Array,
+        required: true,
+      },
+    },
+  };
 </script>
 
 <style src="./AppSidebar.scss" lang="scss" scoped></style>

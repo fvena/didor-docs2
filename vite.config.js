@@ -1,26 +1,24 @@
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import path from 'path'
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   resolve: {
     alias: {
       '@/': `${path.resolve(__dirname, 'src')}/`,
-      'vue': 'vue/dist/vue.esm-bundler.js',
+      vue: 'vue/dist/vue.esm-bundler.js',
     },
   },
-  plugins: [
-    vue(),
-  ],
+  plugins: [vue()],
   css: {
     preprocessorOptions: {
       scss: {
-         additionalData: `
-          @import "./node_modules/@didor/styles/src/didor-share.scss";
+        additionalData: `
           @import "./src/design/var.scss";
-        `
+          @import "./node_modules/@didor/styles/src/didor-share.scss";
+        `,
       },
     },
   },
-})
+});

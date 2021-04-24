@@ -48,6 +48,7 @@
   // Títulos
   &__title {
     width: calc(100% - #{double()});
+    padding: 0 !important;
     margin: 0 simple() quarter();
     font-size: font-size(small1);
     font-weight: font-weight(bold);

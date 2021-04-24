@@ -7,7 +7,7 @@ function slugify(string) {
     .toString()
     .toLowerCase()
     .replace(/\s+/g, '_') // Replace spaces with _
-    .replace(p, c => b.charAt(a.indexOf(c))) // Replace special characters
+    .replace(p, (c) => b.charAt(a.indexOf(c))) // Replace special characters
     .replace(/&/g, '_y_') // Replace & with 'and'
     .replace(/[^\w-]+/g, '') // Remove all non-word characters
     .replace(/__+/g, '_') // ceplace multiple __ with single _
@@ -54,10 +54,13 @@ const getListLinks = (markdown, section) => new Promise(resolve => {
     if (matchs) {
       const level = matchs[1].length / 2;
       const title = matchs[2];
-      const path = matchs[4] && matchs[4] !== '/' ? matchs[4] : null;
+      const path = matchs[4] && matchs[4] !== '/' ? matchs[4].replace(/^\/|\/$/g, '') : null;
       const slug = !path ? null : section ? `${section}/${slugify(title)}` : `${slugify(title)}`;
       const node = {title};
-      if (path) node.path = path;
+      if (path) {
+        if (path.endsWith('.md')) node.file = path;
+        else node.path = path;
+      }
       if (slug) node.slug = slug;
 
       if (level === 0) {
@@ -73,8 +76,8 @@ const getListLinks = (markdown, section) => new Promise(resolve => {
 });
 
 const removeExtension = (filename) => {
-  return filename.replace(/\.[^/.]+$/, "");
-}
+  return filename.replace(/\.[^/.]+$/, '');
+};
 
 export default {
   slugify,

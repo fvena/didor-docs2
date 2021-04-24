@@ -1,6 +1,6 @@
 <template lang="pug">
 li.sidebarItem(:class="levelClass")
-  router-link.sidebarItem__link(:to="link.slug" v-if="link.slug") {{ link.title }}
+  router-link.sidebarItem__link(:to="link.slug" v-if="link.slug" :class="{'sidebarItem__title': isLinkTitle}") {{ link.title }}
   .sidebarItem__title(v-else) {{ link.title }}
 
   AppSidebarLink(
@@ -12,24 +12,32 @@ li.sidebarItem(:class="levelClass")
 </template>
 
 <script>
-export default {
-  name: 'AppSidebarLink',
-  props: {
-    link: {
-      type: Object,
-      required: true,
+  export default {
+    name: 'AppSidebarLink',
+    props: {
+      link: {
+        type: Object,
+        required: true,
+      },
+      deep: {
+        type: Number,
+        default: 1,
+      },
     },
-    deep: {
-      type: Number,
-      default: 1,
+    computed: {
+      levelClass() {
+        return `sidebarItem--level${this.deep}`;
+      },
+      isLinkTitle() {
+        return this.deep === 1 && !!this.link.file;
+      },
     },
-  },
-  computed: {
-    levelClass() {
-      return `sidebarItem--level${this.deep}`;
+
+    created() {
+      console.log(this.link);
+      console.log(this.deep);
     },
-  },
-};
+  };
 </script>
 
 <style src="./AppSidebarItem.scss" lang="scss" scoped></style>

@@ -14,7 +14,7 @@ nav.appMenu(:class="{'appMenu--vertical': vertical}")
     //- Link interno
     router-link.appMenu__item--link(
       v-if="slug"
-      :to="slug")
+      :to="`/${slug}`")
       | {{ title }}
 
     //- Dropdown
@@ -28,32 +28,32 @@ nav.appMenu(:class="{'appMenu--vertical': vertical}")
 </template>
 
 <script>
-import Dropdown from '@/components/Dropdown';
+  import Dropdown from '@/components/Dropdown';
 
-export default {
-  components: {
-    Dropdown,
-  },
-
-  props: {
-    vertical: {
-      type: Boolean,
-      default: false,
+  export default {
+    components: {
+      Dropdown,
     },
 
-    links: {
-      type: Array,
-      required: true,
-    },
-  },
+    props: {
+      vertical: {
+        type: Boolean,
+        default: false,
+      },
 
-  methods: {
-    closeAllDropdown() {
-      if (!Object.keys(this.$refs).length) return;
-      Object.keys(this.$refs).forEach(item => this.$refs[item][0].close());
+      links: {
+        type: Array,
+        required: true,
+      },
     },
-  },
-};
+
+    methods: {
+      closeAllDropdown() {
+        if (!Object.keys(this.$refs).length) return;
+        Object.keys(this.$refs).forEach((item) => this.$refs[item][0].close());
+      },
+    },
+  };
 </script>
 
 <style src="./AppMenu.scss" lang="scss" scoped></style>

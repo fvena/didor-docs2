@@ -1,7 +1,7 @@
-import { ref } from 'vue'
-import Router from '@/router'
-import DocsService from "@/services/Docs.service";
-import ArrayUtils from "@/utils/Array.utils";
+import { ref } from 'vue';
+import Router from '@/router';
+import DocsService from '@/services/Docs.service';
+import ArrayUtils from '@/utils/Array.utils';
 import LinksUtils from '@/utils/links.utils';
 
 /**
@@ -72,7 +72,7 @@ export default class Docs {
    * @param {String} article - Nombre del artículo
    * @throws {DocsError} - Error de Sección
    */
-  async init({section, article}) {
+  async init({ section, article }) {
     await this.getSections();
     await this.getArticles(section);
     this.getArticle(section, article);
@@ -81,7 +81,6 @@ export default class Docs {
     this.articlePath = article;
   }
 
-
   /**
    * Actualiza los datos
    *
@@ -89,8 +88,7 @@ export default class Docs {
    * @param {String} article - Nombre del artículo
    * @throws {DocsError} - Error de Sección
    */
-  async update({section, article}) {
-
+  async update({ section, article }) {
     if (this.sectionPath !== section) {
       await this.getArticles(section);
     }
@@ -100,7 +98,6 @@ export default class Docs {
     this.sectionPath = section;
     this.articlePath = article;
   }
-
 
   /**
    * Obtiene el listado de secciones dentro de una ruta
@@ -126,12 +123,16 @@ export default class Docs {
     //
     // Necesitamos tener el listado de secciones para obtener la ruta de la sección
     //
-    if(!ArrayUtils.checkArray(this.sections.value)) return
+    if (!ArrayUtils.checkArray(this.sections.value)) return;
 
     const { basePath, articlesFile } = this.didor.content;
     if (!basePath || !sectionPath || !articlesFile) return;
 
     const section = this.getCurrentSection(sectionPath);
+
+    if (section.file) {
+      this.getArticle('', section.file);
+    }
 
     if (!section?.path) {
       this.clear();
@@ -162,28 +163,28 @@ export default class Docs {
       //
       if (!articlePath) {
         const firstArticle = this.getFirstArticle();
-        Router.push({ path: `/${sectionPath}/${firstArticle.slug}` })
-        return
+        Router.push({ path: `/${sectionPath}/${firstArticle.slug}` });
+        return;
       }
 
       //
       // Obtengo los datos del artículo correspondiente a la ruta actual
       // y si existen los artículos previo y siguiente
       //
-      const {current, next, prev} = this.getCurrentArticle(articlePath);
+      const { current, next, prev } = this.getCurrentArticle(articlePath);
 
-      if (!current.path) {
+      if (!current.file) {
         this.clear();
         return;
       }
 
-      const content = await DocsService.getContent(`${basePath}/${current.path}`);
+      const content = await DocsService.getContent(`${basePath}/${current.file}`);
       this.article.value = content.render;
       this.data.value = content.data;
 
       this.prevArticle.value = prev;
       this.nextArticle.value = next;
-      return
+      return;
     }
 
     // //
@@ -215,6 +216,16 @@ export default class Docs {
     // }
 
     //
+    // Si no recibo una sección pero si un artículo se trata de un artículo en el root
+    //
+    if (!sectionPath && articlePath && articlePath.endsWith('.md')) {
+      const content = await DocsService.getContent(`${basePath}/${articlePath}`);
+      this.article.value = content.render;
+      this.data.value = content.data;
+      return;
+    }
+
+    //
     // Si no recibo una sección ni artículo estoy en el root '/'
     // Si existe un archivo por defecto lo devuelvo
     //
@@ -227,13 +238,13 @@ export default class Docs {
     //
     // En cualquier otro caso no se encuentra la ruta y reinicio los datos
     //
-    this.clear()
+    this.clear();
   }
 
   getCurrentSection(sectionPath) {
     const flatList = ArrayUtils.flattenList(this.sections.value);
     const slug = `${sectionPath}`;
-    const index = flatList.findIndex(item => item.slug === slug);
+    const index = flatList.findIndex((item) => item.slug === slug);
 
     return index >= 0 ? flatList[index] : null;
   }
@@ -241,13 +252,13 @@ export default class Docs {
   getCurrentArticle(articlePath) {
     const flatList = ArrayUtils.flattenList(this.articles.value);
     const slug = `${articlePath}`;
-    const index = flatList.findIndex(item => item.slug === slug);
+    const index = flatList.findIndex((item) => item.slug === slug);
 
     let current = null;
     let prev = null;
     let next = null;
 
-    if(index >= 0) {
+    if (index >= 0) {
       current = flatList[index];
       prev = index - 1 >= 0 ? flatList[index - 1] : null;
       next = index + 1 < flatList.length ? flatList[index + 1] : null;

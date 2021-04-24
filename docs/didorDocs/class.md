@@ -1,6 +1,6 @@
 # Añadir clases y atributos
 
-Puede añadir una clase o un atributo a cualquier elemento mediante llaves dobles `{{` `}}`.
+Puede añadir una clase o un atributo a cualquier elemento mediante llaves dobles {{ }}.
 
 ## Añadir clases o Id
 
@@ -9,13 +9,11 @@ En ocasiones puede necesitar modificar el estilo concreto de un elemento, con su
 **Ejemplos**
 
 ```markdown
-
 # Título {{#mainTitle .customTitle}}
 
 Esto es un párrafo personalizado. {{.color-brand}}
 
 Párrafo con texto **resaltado**{{.color-brand}}.
-
 ```
 
 **Resultado**
@@ -31,13 +29,11 @@ Párrafo con texto **resaltado**{{.color-brand}}.
 ```
 
 ```html
-
 <h1 id="mainTitle" class="customTitle">Título</h1>
 
 <p class="color-brand">Esto es un párrafo</p>
 
 <p>Párrafo con texto <strong class="color-brand">resaltado</strong></p>
-
 ```
 
 ## Añadir atributos
@@ -47,9 +43,7 @@ Si quiere implementar sus propios scripts, o si quiere añadir contenido a un el
 **Ejemplos**
 
 ```markdown
-
 Soy un párrafo. {{data-tooltip="Soy un mensaje informativo"}}
-
 ```
 
 Soy un párrafo. {{data-tooltip="Soy un mensaje informativo"}}
@@ -57,7 +51,5 @@ Soy un párrafo. {{data-tooltip="Soy un mensaje informativo"}}
 **Resultado**
 
 ```html
-
 <p data-tooltip="Soy un mensaje de informativo">Soy un párrafo</p>
-
 ```

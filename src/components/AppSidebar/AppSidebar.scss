@@ -10,7 +10,7 @@
     height: calc(100vh - #{$header-height});
     padding-top: size(1.5);
     padding-bottom: size(1.5);
-    overflow-y: scroll;
+    overflow-y: auto;
   }
 
   &__navbar {
